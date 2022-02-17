@@ -1,15 +1,22 @@
 <template>
   <div id="app">
     <h1> Список дел</h1>
+    <AddTodo
+        @add-todo="addTodo"
+    />
     <hr>
     <TodoList
+        v-if="todos.length"
       v-bind:todos="todos"
+      @remove-todo="removeTodo"
     />
+    <p v-else>Нет задач!</p>
   </div>
 </template>
 
 <script>
 import TodoList from '@/components/TodoList'
+import AddTodo from '@/components/AddTodo'
 export default {
   name: 'App',
   data () {
@@ -21,8 +28,16 @@ export default {
       ]
     }
   },
+  methods:{
+    removeTodo(id) {
+      this.todos = this.todos.filter(t => t.id !==id)
+    },
+    addTodo(todo) {
+      this.todos.push(todo)
+    }
+  },
   components: {
-    TodoList
+    TodoList, AddTodo
   }
 }
 </script>
